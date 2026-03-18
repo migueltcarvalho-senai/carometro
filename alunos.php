@@ -37,22 +37,22 @@ try {
 }
 ?>
 
-<div class="page-header animate-fade-in">
+<div class="cabecalho-pagina animacao-surgir">
     <div>
-        <h1 class="page-title">Carômetro de Alunos</h1>
-        <p style="color: var(--text-muted); margin-top: 0.25rem;">Identificação visual de todos os alunos cadastrados.</p>
+        <h1 class="titulo-pagina">Carômetro de Alunos</h1>
+        <p class="subtitulo-pagina">Identificação visual de todos os alunos cadastrados.</p>
     </div>
-    <a href="cadastrar_aluno.php" class="btn btn-primary">
+    <a href="cadastrar_aluno.php" class="botao botao-principal">
         <i class="ph ph-user-plus"></i> Novo Aluno
     </a>
 </div>
 
 <!-- Barra de Filtros -->
-<div class="card animate-fade-in" style="margin-bottom: 2rem; padding: 1rem;">
-    <form action="alunos.php" method="GET" style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 200px;">
-            <label for="turma_id" style="font-size: 0.875rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Filtrar por Turma</label>
-            <select name="turma_id" id="turma_id" style="width: 100%; padding: 0.55rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-family: inherit; background-color: white;">
+<div class="cartao animacao-surgir margem-base-extra-grande conteudo-acolchoado">
+    <form action="alunos.php" method="GET" class="formulario-filtros">
+        <div class="campo-filtro">
+            <label for="turma_id" class="rotulo-filtro">Filtrar por Turma</label>
+            <select name="turma_id" id="turma_id" class="selecao-filtro">
                 <option value="">Todas as Turmas</option>
                 <?php foreach ($listaTurmas as $t): ?>
                     <option value="<?= $t['id'] ?>" <?= ($turmaId == $t['id']) ? 'selected' : '' ?>>
@@ -61,11 +61,11 @@ try {
                 <?php endforeach; ?>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="botao botao-principal">
             <i class="ph ph-funnel"></i> Aplicar Filtro
         </button>
         <?php if ($turmaId): ?>
-            <a href="alunos.php" class="btn" style="border-color: var(--border-color); color: var(--text-muted);">
+            <a href="alunos.php" class="botao botao-secundario-texto">
                 Limpar
             </a>
         <?php endif; ?>
@@ -73,49 +73,49 @@ try {
 </div>
 
 <?php if (isset($erro)): ?>
-    <div class="card" style="border-left: 4px solid var(--danger); margin-bottom: 2rem;">
-        <p class="text-danger"><?= $erro; ?></p>
+    <div class="cartao alerta-erro">
+        <p class="texto-perigo"><?= $erro; ?></p>
     </div>
 <?php endif; ?>
 
 <!-- Grid do Carômetro -->
-<div class="dashboard-grid animate-fade-in" style="animation-delay: 0.1s; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+<div class="grade-painel grade-painel-pequena animacao-surgir atraso-animacao-1">
     <?php if (count($alunos) > 0): ?>
         <?php foreach ($alunos as $index => $aluno): ?>
-            <div class="card animate-fade-in" style="padding: 1rem; text-align: center; animation-delay: <?= 0.1 + ($index * 0.05) ?>s;">
+            <div class="cartao cartao-aluno animacao-surgir cartao-aluno-atraso-<?= min($index + 1, 10) ?>">
                 <!-- Foto do Aluno com fallback caso não exista -->
-                <div style="width: 120px; height: 120px; margin: 0 auto 1rem; border-radius: var(--radius-full); overflow: hidden; border: 3px solid #eff6ff; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                <div class="foto-perfil-recipiente">
                     <?php if (!empty($aluno['caminho_foto']) && file_exists($aluno['caminho_foto'])): ?>
-                        <img src="<?= htmlspecialchars($aluno['caminho_foto']) ?>" alt="<?= htmlspecialchars($aluno['nome_completo']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="<?= htmlspecialchars($aluno['caminho_foto']) ?>" alt="<?= htmlspecialchars($aluno['nome_completo']) ?>" class="foto-perfil-imagem">
                     <?php else: ?>
-                        <i class="ph ph-user" style="font-size: 3rem; color: #cbd5e1;"></i>
+                        <i class="ph ph-user icone-grande"></i>
                     <?php endif; ?>
                 </div>
 
-                <h3 style="font-size: 1rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?= htmlspecialchars($aluno['nome_completo']) ?>">
+                <h3 class="titulo-cartao-menor texto-truncado" title="<?= htmlspecialchars($aluno['nome_completo']) ?>">
                     <?= htmlspecialchars($aluno['nome_completo']) ?>
                 </h3>
                 
-                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                <p class="texto-detalhe-secundario margem-base-media">
                     RM: <?= htmlspecialchars($aluno['registro_matricula'] ?? 'N/D') ?>
                 </p>
 
-                <span style="font-size: 0.7rem; font-weight: 600; color: var(--primary-color); background: #eff6ff; padding: 0.2rem 0.5rem; border-radius: var(--radius-full);">
+                <span class="etiqueta-pequena">
                     <?= htmlspecialchars($aluno['nome_turma']) ?>
                 </span>
 
-                <div style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
-                    <button class="btn" style="width: 100%; padding: 0.35rem; font-size: 0.7rem; border-color: var(--border-color); color: var(--text-muted);" onclick="alert('Histórico de presença em desenvolvimento!')">
+                <div class="rodape-cartao-aluno">
+                    <button class="botao botao-pequeno-largura-total" onclick="alert('Histórico de presença em desenvolvimento!')">
                         <i class="ph ph-clock-counter-clockwise"></i> Histórico
                     </button>
                 </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
-            <i class="ph ph-users" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 1.5rem;"></i>
-            <h3 style="color: var(--text-muted); margin-bottom: 0.5rem;">Nenhum aluno encontrado</h3>
-            <p style="color: var(--text-muted);">Tente mudar o filtro ou cadastre novos alunos no banco de dados.</p>
+        <div class="cartao cartao-vazio">
+            <i class="ph ph-users icone-extra-grande"></i>
+            <h3 class="texto-secundario margem-base-pequena">Nenhum aluno encontrado</h3>
+            <p class="texto-secundario">Tente mudar o filtro ou cadastre novos alunos no banco de dados.</p>
         </div>
     <?php endif; ?>
 </div>

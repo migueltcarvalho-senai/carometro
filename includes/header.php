@@ -26,29 +26,29 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
 </head>
 <body>
 
-<div class="app-container">
+<div class="recipiente-aplicativo">
     <!-- Barra de navegação do topo (Header) -->
-    <header class="navbar">
-        <a href="index.php" class="navbar-brand">
+    <header class="barra-navegacao">
+        <a href="index.php" class="marca-barra-navegacao">
             <i class="ph ph-camera"></i>
             Carômetro
         </a>
         
-        <nav class="nav-links">
-            <a href="index.php" class="nav-item <?= ($paginaAtual == 'index.php') ? 'active' : '' ?>">
+        <nav class="links-navegacao">
+            <a href="index.php" class="item-navegacao <?= ($paginaAtual == 'index.php') ? 'ativo' : '' ?>">
                 <i class="ph ph-squares-four"></i> Painel
             </a>
-            <a href="turmas.php" class="nav-item <?= ($paginaAtual == 'turmas.php') ? 'active' : '' ?>">
+            <a href="turmas.php" class="item-navegacao <?= ($paginaAtual == 'turmas.php') ? 'ativo' : '' ?>">
                 <i class="ph ph-users-three"></i> Turmas
             </a>
-            <a href="alunos.php" class="nav-item <?= ($paginaAtual == 'alunos.php' || $paginaAtual == 'carometro.php') ? 'active' : '' ?>">
+            <a href="alunos.php" class="item-navegacao <?= ($paginaAtual == 'alunos.php' || $paginaAtual == 'carometro.php') ? 'ativo' : '' ?>">
                 <i class="ph ph-identification-card"></i> Alunos
             </a>
-            <a href="chamadas.php" class="nav-item <?= ($paginaAtual == 'chamadas.php') ? 'active' : '' ?>">
+            <a href="chamadas.php" class="item-navegacao <?= ($paginaAtual == 'chamadas.php') ? 'ativo' : '' ?>">
                 <i class="ph ph-calendar-check"></i> Chamadas
             </a>
         </nav>
     </header>
 
     <!-- Área principal onde o conteúdo das páginas será injetado -->
-    <main class="main-content">
+    <main class="conteudo-principal">

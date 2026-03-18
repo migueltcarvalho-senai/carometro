@@ -20,44 +20,44 @@ $stmtDiarios = $conexao->query("SELECT COUNT(*) AS total FROM diarios_chamada WH
 $chamadasHoje = $stmtDiarios->fetch(PDO::FETCH_ASSOC)['total'];
 ?>
 
-<div class="page-header animate-fade-in">
+<div class="cabecalho-pagina animacao-surgir">
     <div>
-        <h1 class="page-title">Painel Geral</h1>
-        <p style="color: var(--text-muted); margin-top: 0.25rem;">Resumo dos dados do seu sistema hoje.</p>
+        <h1 class="titulo-pagina">Painel Geral</h1>
+        <p class="subtitulo-pagina">Resumo dos dados do seu sistema hoje.</p>
     </div>
     <!-- Botão de atalho rápido para ir às chamadas ou alunos -->
-    <a href="iniciar_chamada.php" class="btn btn-primary">
+    <a href="iniciar_chamada.php" class="botao botao-principal">
         <i class="ph ph-plus-circle"></i> Iniciar Chamada
     </a>
 </div>
 
 <!-- Grade de Cards com numerais -->
-<div class="dashboard-grid animate-fade-in" style="animation-delay: 0.1s;">
+<div class="grade-painel animacao-surgir atraso-animacao-1">
     <!-- Card Turmas -->
-    <div class="card">
-        <h3 class="card-title">Turmas Ativas</h3>
-        <div class="card-value"><?= $totalTurmas; ?></div>
-        <a href="turmas.php" style="font-size: 0.875rem; display: block; margin-top: 0.5rem;"><i class="ph ph-arrow-right"></i> Ver turmas</a>
+    <div class="cartao">
+        <h3 class="titulo-cartao">Turmas Ativas</h3>
+        <div class="valor-cartao"><?= $totalTurmas; ?></div>
+        <a href="turmas.php" class="link-bloco-pequeno"><i class="ph ph-arrow-right"></i> Ver turmas</a>
     </div>
 
     <!-- Card Alunos -->
-    <div class="card">
-        <h3 class="card-title">Alunos Cadastrados</h3>
-        <div class="card-value"><?= $totalAlunos; ?></div>
-        <a href="alunos.php" style="font-size: 0.875rem; display: block; margin-top: 0.5rem;"><i class="ph ph-arrow-right"></i> Ver carômetro</a>
+    <div class="cartao">
+        <h3 class="titulo-cartao">Alunos Cadastrados</h3>
+        <div class="valor-cartao"><?= $totalAlunos; ?></div>
+        <a href="alunos.php" class="link-bloco-pequeno"><i class="ph ph-arrow-right"></i> Ver carômetro</a>
     </div>
 
     <!-- Card Chamadas de Hoje -->
-    <div class="card">
-        <h3 class="card-title">Chamadas Hoje</h3>
-        <div class="card-value"><?= $chamadasHoje; ?></div>
-        <a href="chamadas.php" style="font-size: 0.875rem; display: block; margin-top: 0.5rem;"><i class="ph ph-arrow-right"></i> Ver chamadas</a>
+    <div class="cartao">
+        <h3 class="titulo-cartao">Chamadas Hoje</h3>
+        <div class="valor-cartao"><?= $chamadasHoje; ?></div>
+        <a href="chamadas.php" class="link-bloco-pequeno"><i class="ph ph-arrow-right"></i> Ver chamadas</a>
     </div>
 </div>
 
-<div class="card animate-fade-in" style="animation-delay: 0.2s;">
-    <h3 class="card-title" style="color: var(--text-main);">Seja bem vindo(a)!</h3>
-    <p style="color: var(--text-muted); margin-top: 0.5rem;">
+<div class="cartao animacao-surgir atraso-animacao-2">
+    <h3 class="titulo-cartao texto-principal">Seja bem vindo(a)!</h3>
+    <p class="texto-secundario margem-topo-media">
         Utilize o menu no topo para navegar entre as telas de gerenciamento de Turmas, Carômetro de Alunos e Diários de Chamada. O sistema foi desenvolvido focando na agilidade e clareza visual.
     </p>
 </div>

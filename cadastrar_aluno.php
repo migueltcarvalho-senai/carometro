@@ -11,41 +11,39 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
 <!-- Importação da Face-API.js -->
 <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 
-<div class="page-header animate-fade-in">
+<div class="cabecalho-pagina animacao-surgir">
     <div>
-        <h1 class="page-title">Cadastrar Novo Aluno</h1>
-        <p style="color: var(--text-muted); margin-top: 0.25rem;">Capture 3 ângulos do rosto para garantir um reconhecimento perfeito.</p>
+        <h1 class="titulo-pagina">Cadastrar Novo Aluno</h1>
+        <p class="subtitulo-pagina">Capture 3 ângulos do rosto para garantir um reconhecimento perfeito.</p>
     </div>
-    <a href="alunos.php" class="btn" style="border-color: var(--border-color); color: var(--text-muted);">
+    <a href="alunos.php" class="botao botao-secundario-texto">
         <i class="ph ph-arrow-left"></i> Voltar
     </a>
 </div>
 
-<div class="animate-fade-in" style="display: grid; grid-template-columns: 1fr 450px; gap: 2rem; align-items: start;">
+<div class="animacao-surgir grade-mista">
     
     <!-- Formulário de Dados -->
-    <div class="card">
-        <form action="acoes/salvar_aluno.php" method="POST" id="formAluno" style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <div class="cartao">
+        <form action="acoes/salvar_aluno.php" method="POST" id="formAluno" class="formulario-coluna">
             
             <!-- Campos ocultos para a imagem principal e para o JSON de vetores -->
             <input type="hidden" name="foto_base64" id="foto_base64">
             <input type="hidden" name="vetores_json" id="vetores_json">
 
             <div>
-                <label for="nome_completo" style="display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem;">Nome Completo</label>
-                <input type="text" name="nome_completo" id="nome_completo" required placeholder="Nome do aluno"
-                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit;">
+                <label for="nome_completo" class="rotulo-formulario">Nome Completo</label>
+                <input type="text" name="nome_completo" id="nome_completo" required placeholder="Nome do aluno" class="controle-formulario">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="grade-duas-colunas">
                 <div>
-                    <label for="registro_matricula" style="display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem;">RM (Matrícula)</label>
-                    <input type="text" name="registro_matricula" id="registro_matricula" required placeholder="Ex: 123456"
-                           style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit;">
+                    <label for="registro_matricula" class="rotulo-formulario">RM (Matrícula)</label>
+                    <input type="text" name="registro_matricula" id="registro_matricula" required placeholder="Ex: 123456" class="controle-formulario">
                 </div>
                 <div>
-                    <label for="turma_id" style="display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem;">Turma</label>
-                    <select name="turma_id" id="turma_id" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; background-color: white;">
+                    <label for="turma_id" class="rotulo-formulario">Turma</label>
+                    <select name="turma_id" id="turma_id" required class="controle-formulario bg-branco">
                         <option value="">Selecione...</option>
                         <?php foreach ($listaTurmas as $t): ?>
                             <option value="<?= $t['id'] ?>"><?= htmlspecialchars($t['nome']) ?></option>
@@ -54,11 +52,11 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-            <div style="margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
-                <button type="submit" id="btnSalvar" class="btn btn-primary" style="width: 100%; padding: 0.875rem;" disabled>
+            <div class="rodape-formulario">
+                <button type="submit" id="btnSalvar" class="botao botao-principal botao-largo" disabled>
                     <i class="ph ph-user-plus"></i> Finalizar Cadastro
                 </button>
-                <p id="msgAviso" style="color: var(--warning); font-size: 0.75rem; margin-top: 0.5rem; text-align: center; font-weight: 600;">
+                <p id="msgAviso" class="texto-cuidado">
                     <i class="ph ph-info"></i> Capture as 3 fotos antes de salvar.
                 </p>
             </div>
@@ -66,33 +64,33 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Área da Câmera Otimizada -->
-    <div class="card" style="text-align: center;">
-        <div id="status-ia" style="font-size: 0.75rem; color: var(--warning); margin-bottom: 1rem; font-weight: 600;">
+    <div class="cartao texto-centralizado">
+        <div id="status-ia" class="status-tela-ia">
             <i class="ph ph-spinner ph-spin"></i> Carregando Motor de Reconhecimento...
         </div>
         
-        <div id="container-camera" style="width: 100%; aspect-ratio: 4/3; background: #000; border-radius: var(--radius-md); overflow: hidden; position: relative; margin-bottom: 1rem;">
-            <video id="video" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover;"></video>
-            <canvas id="canvas-preview" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></canvas>
+        <div id="container-camera" class="conteiner-camera-cadastro">
+            <video id="video" autoplay playsinline muted class="video-fluido"></video>
+            <canvas id="canvas-preview" class="lona-preview"></canvas>
             
             <!-- Overlay visual para guiar o enquadramento -->
-            <div id="enquadramento" style="position: absolute; top: 15%; left: 20%; width: 60%; height: 70%; border: 2px dashed rgba(255,255,255,0.4); border-radius: 40px; pointer-events: none;"></div>
+            <div id="enquadramento" class="marcador-rosto"></div>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div id="instrucao-foto" style="font-weight: 600; color: var(--primary-color);">Foto 1: Olhe fixo para a câmera</div>
+        <div class="flex-coluna-espacada">
+            <div id="instrucao-foto" class="texto-principal-cor destaque-negrito">Foto 1: Olhe fixo para a câmera</div>
             
-            <button type="button" id="btnCapturar" class="btn" style="background: var(--text-main); color: white; padding: 1rem;" disabled>
+            <button type="button" id="btnCapturar" class="botao botao-destaque-escuro" disabled>
                 <i class="ph ph-camera"></i> Capturar Foto <span id="num-foto">1</span>/3
             </button>
             
-            <div id="miniaturas" style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
-                <div class="slot-foto" style="width: 60px; height: 60px; background: #f1f5f9; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;"><i class="ph ph-image"></i></div>
-                <div class="slot-foto" style="width: 60px; height: 60px; background: #f1f5f9; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;"><i class="ph ph-image"></i></div>
-                <div class="slot-foto" style="width: 60px; height: 60px; background: #f1f5f9; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;"><i class="ph ph-image"></i></div>
+            <div id="miniaturas" class="conteiner-miniaturas">
+                <div class="slot-miniatura"><i class="ph ph-image"></i></div>
+                <div class="slot-miniatura"><i class="ph ph-image"></i></div>
+                <div class="slot-miniatura"><i class="ph ph-image"></i></div>
             </div>
 
-            <button type="button" id="btnReset" class="btn" style="border-color: var(--border-color); color: var(--text-muted); font-size: 0.75rem;">
+            <button type="button" id="btnReset" class="botao botao-secundario-texto">
                 <i class="ph ph-arrows-counter-clockwise"></i> Recomeçar Capturas
             </button>
         </div>
@@ -107,7 +105,7 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
     const numFotoSpan = document.getElementById('num-foto');
     const instrucao = document.getElementById('instrucao-foto');
     const msgAviso = document.getElementById('msgAviso');
-    const slots = document.querySelectorAll('.slot-foto');
+    const slots = document.querySelectorAll('.slot-miniatura');
     const statusIa = document.getElementById('status-ia');
 
     let fotosCapturadas = [];
@@ -127,13 +125,13 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
                 faceapi.nets.faceRecognitionNet.loadFromUri('assets/models')
             ]);
             
-            statusIa.innerHTML = '<i class="ph ph-check-circle text-success"></i> Motor IA Pronto';
+            statusIa.innerHTML = '<i class="ph ph-check-circle texto-sucesso"></i> Motor IA Pronto';
             statusIa.style.color = 'var(--success)';
             btnCapturar.disabled = false;
             
             startWebcam();
         } catch (err) {
-            statusIa.innerHTML = '<i class="ph ph-x-circle text-danger"></i> Erro ao carregar IA';
+            statusIa.innerHTML = '<i class="ph ph-x-circle texto-perigo"></i> Erro ao carregar IA';
             console.error(err);
         }
     }

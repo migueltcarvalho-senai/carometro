@@ -2,7 +2,7 @@
     </main>
 
     <!-- Rodapé -->
-    <footer class="footer">
+    <footer class="rodape">
         <p>&copy; <?= date('Y'); ?> Carômetro Inteligente - Feito com muito zelo para escolas.</p>
     </footer>
 </div>

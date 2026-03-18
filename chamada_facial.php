@@ -30,47 +30,58 @@ try {
 
 <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 
-<div class="page-header animate-fade-in">
+<div class="cabecalho-pagina animacao-surgir">
     <div>
-        <h1 class="page-title">Chamada Facial Otimizada</h1>
-        <p style="color: var(--text-muted); margin-top: 0.25rem;">
-            Turma: <strong style="color: var(--primary-color);"><?= htmlspecialchars($diario['nome_turma']) ?></strong> | 
-            <span id="status-ia" style="color: var(--success); font-weight: 600;">
+        <h1 class="titulo-pagina">Chamada Facial Otimizada</h1>
+        <p class="subtitulo-pagina">
+            Turma: <strong class="texto-principal-cor"><?= htmlspecialchars($diario['nome_turma']) ?></strong> | 
+            <span id="status-ia" class="texto-sucesso destaque-negrito">
                 <i class="ph ph-check-circle"></i> Sistema Ativo
             </span>
         </p>
     </div>
-    <a href="chamadas.php" class="btn" style="border-color: var(--border-color); color: var(--text-muted);">
+    <a href="chamadas.php" class="botao botao-secundario-texto">
         <i class="ph ph-stop"></i> Finalizar
     </a>
 </div>
 
-<div class="animate-fade-in" style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem;">
+<div class="animacao-surgir layout-grade-tela-dividida">
     
-    <div id="video-wrapper" class="card" style="padding: 0; position: relative; background: #000; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16/9;">
-        <video id="video-feed" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover;"></video>
-        <canvas id="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+    <div id="video-wrapper" class="cartao conteiner-video">
+        <video id="video-feed" autoplay playsinline muted class="video-fluido"></video>
+        <canvas id="overlay" class="lona-sobreposicao"></canvas>
         
-        <div id="alerta-match" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: white; padding: 0.75rem 1.5rem; border-radius: var(--radius-full); display: flex; align-items: center; gap: 1rem; box-shadow: var(--shadow-lg); display: none; z-index: 10; border: 2px solid var(--success); animation: bounceIn 0.5s;">
-            <div id="match-foto" style="width: 45px; height: 45px; border-radius: 50%; background: #eee; overflow: hidden; border: 2px solid var(--success);"></div>
+        <div id="alerta-match" class="alerta-sucesso-sobreposto">
+            <div id="match-foto" class="foto-perfil-pequena-borda"></div>
             <div>
-                <h4 id="match-nome" style="font-size: 0.9rem; margin: 0;">-</h4>
-                <p style="font-size: 0.65rem; color: var(--success); margin: 0; font-weight: 700;">PRESENÇA CONFIRMADA!</p>
+                <h4 id="match-nome" class="titulo-alerta-nome">-</h4>
+                <p class="texto-sucesso texto-alerta-pequeno">PRESENÇA CONFIRMADA!</p>
             </div>
         </div>
 
-        <div id="loader-ia" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; gap: 1rem; z-index: 20;">
-            <i class="ph ph-lightning ph-spin" style="font-size: 3rem; color: var(--primary-color);"></i>
+        <div id="loader-ia" class="tela-carregamento-sobreposta">
+            <i class="ph ph-lightning ph-spin icone-carregamento-grande"></i>
             <p id="loader-texto">Sincronizando Banco Biométrico...</p>
         </div>
     </div>
 
-    <div class="card" style="display: flex; flex-direction: column; max-height: 500px;">
-        <h3 class="card-title" style="margin-bottom: 1rem; display: flex; justify-content: space-between;">
-            Presentes <span id="contador-presencas" style="background: var(--primary-color); color: white; padding: 0.1rem 0.6rem; border-radius: var(--radius-full); font-size: 0.8rem;">0</span>
-        </h3>
-        <div id="lista-presencas" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;">
-            <p id="msg-vazia" style="text-align: center; color: var(--text-muted); padding: 2rem; font-size: 0.8rem;">Posicione-se frente à câmera</p>
+    <div class="cartao cartao-coluna-limitada" style="max-height: 600px;">
+        <!-- Abas -->
+        <div style="display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+            <button id="aba-presentes" onclick="alternarAba('presentes')" style="background:none; border:none; padding: 0.5rem 1rem; font-weight: 600; font-size: 1rem; cursor: pointer; color: var(--primary-color); border-bottom: 2px solid var(--primary-color);">
+                Presentes (<span id="contador-presentes">0</span>)
+            </button>
+            <button id="aba-ausentes" onclick="alternarAba('ausentes')" style="background:none; border:none; padding: 0.5rem 1rem; font-weight: 600; font-size: 1rem; cursor: pointer; color: var(--text-muted); border-bottom: 2px solid transparent;">
+                Ausentes (<span id="contador-ausentes">0</span>)
+            </button>
+        </div>
+
+        <div id="lista-presentes" class="lista-rolavel-espacada">
+            <p class="mensagem-vazia-pequena">Nenhum presente ainda.</p>
+        </div>
+
+        <div id="lista-ausentes" class="lista-rolavel-espacada" style="display: none;">
+            <p class="mensagem-vazia-pequena">Carregando...</p>
         </div>
     </div>
 </div>
@@ -83,14 +94,91 @@ try {
     const alertaMatch = document.getElementById('alerta-match');
     const matchNome = document.getElementById('match-nome');
     const matchFoto = document.getElementById('match-foto');
-    const listaPresencas = document.getElementById('lista-presencas');
-    const contador = document.getElementById('contador-presencas');
-    const msgVazia = document.getElementById('msg-vazia');
+    const listaPresentes = document.getElementById('lista-presentes');
+    const listaAusentes = document.getElementById('lista-ausentes');
+    const contadorPresentes = document.getElementById('contador-presentes');
+    const contadorAusentes = document.getElementById('contador-ausentes');
+    
+    const abaPresentes = document.getElementById('aba-presentes');
+    const abaAusentes = document.getElementById('aba-ausentes');
     
     const diarioId = <?= $diario_id ?>;
     const alunosBD = <?= json_encode($alunos) ?>;
     let faceMatcher = null;
-    let presentes = new Set();
+    let setPresentesLock = new Set(); // Controle para não inundar o servidor com a mesma face
+
+    // Alternar entre abas
+    window.alternarAba = function(aba) {
+        if (aba === 'presentes') {
+            abaPresentes.style.color = 'var(--primary-color)';
+            abaPresentes.style.borderBottomColor = 'var(--primary-color)';
+            abaAusentes.style.color = 'var(--text-muted)';
+            abaAusentes.style.borderBottomColor = 'transparent';
+            listaPresentes.style.display = 'flex';
+            listaAusentes.style.display = 'none';
+        } else {
+            abaAusentes.style.color = 'var(--primary-color)';
+            abaAusentes.style.borderBottomColor = 'var(--primary-color)';
+            abaPresentes.style.color = 'var(--text-muted)';
+            abaPresentes.style.borderBottomColor = 'transparent';
+            listaAusentes.style.display = 'flex';
+            listaPresentes.style.display = 'none';
+        }
+    };
+
+    // Função que busca dados reais do servidor a cada 2 segundos
+    async function sincronizarDashboard() {
+        try {
+            const resp = await fetch(`acoes/obter_diario_real.php?diario_id=${diarioId}`);
+            if (!resp.ok) return;
+            const data = await resp.json();
+            
+            if (data.sucesso) {
+                renderizarListas(data.presentes, data.ausentes);
+            }
+        } catch (e) {
+            console.error("Erro sincronizando dashboard: ", e);
+        }
+    }
+
+    function renderizarListas(presentes, ausentes) {
+        contadorPresentes.innerText = presentes.length;
+        contadorAusentes.innerText = ausentes.length;
+
+        // Lista Presentes
+        if (presentes.length === 0) {
+            listaPresentes.innerHTML = '<p class="mensagem-vazia-pequena">Nenhum presente ainda.</p>';
+        } else {
+            listaPresentes.innerHTML = presentes.map(a => `
+                <div class="animacao-surgir item-lista-presenca" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem; background: #f0fdf4; border-radius: var(--radius-md); border: 1px solid #bbf7d0;">
+                    <div style="width: 35px; height: 35px; border-radius: 50%; overflow: hidden;">
+                        <img src="${a.caminho_foto}" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div style="flex: 1;">
+                        <p style="font-size: 0.75rem; font-weight: 700; margin: 0; color: var(--text-main);">${a.nome_completo}</p>
+                        <p style="font-size: 0.6rem; color: var(--success); margin: 0; font-weight: 600;">Às ${a.hora_registro}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Lista Ausentes
+        if (ausentes.length === 0) {
+            listaAusentes.innerHTML = '<p class="mensagem-vazia-pequena">Todos presentes!</p>';
+        } else {
+            listaAusentes.innerHTML = ausentes.map(a => `
+                <div class="item-lista-presenca" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem; background: #fef2f2; border-radius: var(--radius-md); border: 1px solid #fecaca; opacity: 0.8;">
+                    <div style="width: 35px; height: 35px; border-radius: 50%; overflow: hidden; opacity: 0.6; grayscale: 100%;">
+                        <img src="${a.caminho_foto}" style="width:100%; height:100%; object-fit:cover; filter: grayscale(100%);">
+                    </div>
+                    <div style="flex: 1;">
+                        <p style="font-size: 0.75rem; font-weight: 700; margin: 0; color: var(--text-main);">${a.nome_completo}</p>
+                        <p style="font-size: 0.6rem; color: var(--danger); margin: 0; font-weight: 600;">Ausente</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
 
     async function setupIA() {
         try {
@@ -114,9 +202,13 @@ try {
             });
 
             if (labeledDescriptors.length > 0) {
-                // Diminuímos o rigor: de 0.6 para 0.65 (Distância Euclidiana: menor é mais rigoroso)
+                // Rigor 0.65
                 faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.65);
                 iniciarAcessoCamera();
+                
+                // Inicia loop de sincronização com o banco independente da captura
+                sincronizarDashboard();
+                setInterval(sincronizarDashboard, 2000); // Atualiza as listas a cada 2 seg
             } else {
                 alert("Nenhum aluno desta turma possui biometria cadastrada. Redirecionando para cadastros.");
                 window.location.href = 'cadastrar_aluno.php';
@@ -150,7 +242,6 @@ try {
                             const result = faceMatcher.findBestMatch(detection.descriptor);
                             const alunoId = result.label;
                             
-                            // Visual: Cor verde para conhecido, vermelho para estranho
                             const boxColor = (alunoId !== 'unknown') ? '#10b981' : '#ef4444';
                             const drawBox = new faceapi.draw.DrawBox(detection.detection.box, { 
                                 label: alunoId !== 'unknown' ? "Identificado" : "Desconhecido",
@@ -163,15 +254,15 @@ try {
                                 if (aluno) registrarNoBanco(aluno.id, aluno.nome_completo, aluno.caminho_foto);
                             }
                         });
-                    }, 400); // Intervalo levemente menor para resposta mais rápida
+                    }, 400); 
                 };
-            });
+            })
+            .catch(err => alert("Erro ao acessar a câmera."));
     }
 
     async function registrarNoBanco(alunoId, nome, foto) {
-        // Trava imediata para evitar múltiplas requisições enquanto a primeira ainda está processando
-        if (presentes.has(alunoId)) return;
-        presentes.add(alunoId); // Marca como "em processamento/presente" antes mesmo do fetch
+        if (setPresentesLock.has(alunoId)) return;
+        setPresentesLock.add(alunoId); 
 
         try {
             const formData = new FormData();
@@ -181,34 +272,19 @@ try {
             const response = await fetch('acoes/registrar_presenca.php', { method: 'POST', body: formData });
             const data = await response.json();
 
+            // Só damos feedback de overlay para o usuário da câmera.
+            // As listas serão atualizadas automaticamente pelo sincronizarDashboard().
             if (data.sucesso) {
                 matchNome.innerText = nome;
                 matchFoto.innerHTML = `<img src="${foto}" style="width:100%; height:100%; object-fit:cover;">`;
                 alertaMatch.style.display = 'flex';
                 setTimeout(() => alertaMatch.style.display = 'none', 3000);
-
-                msgVazia.style.display = 'none';
-                const item = document.createElement('div');
-                item.className = 'animate-fade-in';
-                item.style = 'display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem; background: #f0fdf4; border-radius: var(--radius-md); border: 1px solid #bbf7d0;';
-                item.innerHTML = `
-                    <div style="width: 35px; height: 35px; border-radius: 50%; overflow: hidden;">
-                        <img src="${foto}" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div style="flex: 1;">
-                        <p style="font-size: 0.75rem; font-weight: 700; margin: 0;">${nome}</p>
-                        <p style="font-size: 0.6rem; color: var(--text-muted); margin: 0;">Às ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
-                    </div>
-                `;
-                listaPresencas.prepend(item);
-                contador.innerText = presentes.size;
             } else {
-                // Se deu erro no servidor (ex: não conseguiu salvar), removemos do set para tentar novamente depois
-                presentes.delete(alunoId);
+                setPresentesLock.delete(alunoId);
             }
         } catch (err) { 
             console.error(err); 
-            presentes.delete(alunoId); // Libera para tentar de novo caso seja erro de rede
+            setPresentesLock.delete(alunoId); 
         }
     }
 
