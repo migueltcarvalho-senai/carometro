@@ -16,8 +16,8 @@ try {
 
     if (!$diario) die("Diário não encontrado.");
 
-    // Busca alunos com os VETORES JSON já prontos
-    $stmtAlunos = $conexao->prepare("SELECT id, nome_completo, caminho_foto, vetores_json 
+    // Busca alunos com os vetores faciais (JSON) já salvos no banco
+    $stmtAlunos = $conexao->prepare("SELECT id, nome_completo, caminho_foto, vetor_facial 
                                      FROM alunos WHERE turma_id = :turma_id");
     $stmtAlunos->bindParam(':turma_id', $diario['turma_id']);
     $stmtAlunos->execute();
@@ -192,9 +192,11 @@ try {
             loaderTexto.innerText = "Carregando Biometrias do Banco...";
             const labeledDescriptors = [];
             
+            // Percorre cada aluno do banco e converte seus vetores faciais para o formato da face-api
             alunosBD.forEach(aluno => {
-                if (aluno.vetores_json) {
-                    const descritores = JSON.parse(aluno.vetores_json).map(v => new Float32Array(v));
+                if (aluno.vetor_facial) {
+                    // Faz o parse do JSON e converte cada vetor para Float32Array (formato exigido pela IA)
+                    const descritores = JSON.parse(aluno.vetor_facial).map(v => new Float32Array(v));
                     if (descritores.length > 0) {
                         labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(aluno.id.toString(), descritores));
                     }
@@ -202,8 +204,9 @@ try {
             });
 
             if (labeledDescriptors.length > 0) {
-                // Rigor 0.65
-                faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.65);
+                // Rigor 0.45 (Quanto MENOR o número, MAIOR a precisão exigida na face-api.js)
+                // Padrão era 0.65, reduzimos para 0.45 para evitar "falsos positivos"
+                faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.45);
                 iniciarAcessoCamera();
                 
                 // Inicia loop de sincronização com o banco independente da captura
@@ -230,7 +233,8 @@ try {
                     faceapi.matchDimensions(canvas, displaySize);
 
                     setInterval(async () => {
-                        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
+                        // Aumentamos o scoreThreshold de 0.5 para 0.7 para que apenas "rostos muito nítidos" sejam validados
+                        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.7 }))
                                                         .withFaceLandmarks()
                                                         .withFaceDescriptors();
                         

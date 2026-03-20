@@ -29,7 +29,8 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
             
             <!-- Campos ocultos para a imagem principal e para o JSON de vetores -->
             <input type="hidden" name="foto_base64" id="foto_base64">
-            <input type="hidden" name="vetores_json" id="vetores_json">
+            <!-- Campo oculto que armazena o JSON dos vetores faciais extraídos pela IA -->
+            <input type="hidden" name="vetor_facial" id="vetor_facial">
 
             <div>
                 <label for="nome_completo" class="rotulo-formulario">Nome Completo</label>
@@ -156,7 +157,8 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
 
         try {
             // Extrair o vetor facial na hora para garantir que a foto presta
-            const detection = await faceapi.detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions())
+            // Aumentamos o scoreThreshold para 0.7 para garantir biometrias de alta qualidade no banco
+            const detection = await faceapi.detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.7 }))
                                           .withFaceLandmarks()
                                           .withFaceDescriptor();
 
@@ -187,7 +189,8 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
                 
                 // Preencher campos ocultos
                 document.getElementById('foto_base64').value = fotosCapturadas[0]; // Foto principal (frente)
-                document.getElementById('vetores_json').value = JSON.stringify(vetoresExtraidos);
+                // Preenche o campo oculto com o JSON de todos os vetores extraídos
+                document.getElementById('vetor_facial').value = JSON.stringify(vetoresExtraidos);
                 
                 btnSalvar.disabled = false;
                 msgAviso.style.display = 'none';
