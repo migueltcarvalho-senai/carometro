@@ -104,10 +104,15 @@ try {
                     <?= htmlspecialchars($aluno['nome_turma']) ?>
                 </span>
 
-                <div class="rodape-cartao-aluno">
-                    <button class="botao botao-pequeno-largura-total" onclick="alert('Histórico de presença em desenvolvimento!')">
+                <div class="rodape-cartao-aluno" style="display: flex; gap: 0.5rem; width: 100%;">
+                    <a href="historico_aluno.php?id=<?= $aluno['id'] ?>" class="botao botao-secundario-texto" style="flex: 1; text-decoration:none; display:flex; justify-content:center; align-items:center; padding: 0.5rem; gap: 0.25rem;">
                         <i class="ph ph-clock-counter-clockwise"></i> Histórico
-                    </button>
+                    </a>
+                    <a href="acoes/excluir_aluno.php?id=<?= $aluno['id'] ?>&turma_id=<?= $turmaId ?>" 
+                       class="botao" style="flex: 1; text-decoration:none; display:flex; justify-content:center; align-items:center; background-color: var(--cor-erro, #ef4444); color: white; padding: 0.5rem; gap: 0.25rem;"
+                       onclick="return confirm('Tem certeza que deseja excluir este aluno? Esta ação apagará todo o histórico de presenças dele e não pode ser desfeita.');">
+                        <i class="ph ph-trash"></i> Excluir
+                    </a>
                 </div>
             </div>
         <?php endforeach; ?>

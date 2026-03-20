@@ -90,9 +90,9 @@ try {
                                     <?= date('H:i', strtotime($d['iniciada_em'])) ?>
                                 </td>
                                 <td class="celula-direita">
-                                    <button class="botao botao-tabela" onclick="alert('Visualizando detalhes da presença...')">
+                                    <a href="detalhes_chamada.php?id=<?= $d['id'] ?>" class="botao botao-tabela" style="text-decoration:none;">
                                         <i class="ph ph-eye"></i> Detalhes
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
