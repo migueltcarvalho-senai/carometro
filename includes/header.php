@@ -22,9 +22,21 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Nosso arquivo de estilos principal -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>">
 </head>
 <body>
+
+<!-- Transição de Carga de Página -->
+<div id="loader-transicao" class="transicao-overlay ativa"></div>
+
+<div class="background-animado">
+    <div class="circulo-bg circulo-1"></div>
+    <div class="circulo-bg circulo-2"></div>
+    <div class="circulo-bg circulo-3"></div>
+    <div class="triangulo-bg triangulo-1"></div>
+    <div class="triangulo-bg triangulo-2"></div>
+    <div class="triangulo-bg triangulo-3"></div>
+</div>
 
 <div class="recipiente-aplicativo">
     <!-- Barra de navegação do topo (Header) -->
