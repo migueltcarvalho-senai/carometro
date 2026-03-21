@@ -3,20 +3,20 @@
     --primary-color: #2563eb;
     /* Azul Vibrante Premium */
     --primary-hover: #1d4ed8;
-    --bg-color: #f8fafc;
+    --bg-color: #F7F7F7;
     /* Fundo limpo e claro */
-    --card-bg: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
+    --card-bg: #1F1D2F;
+    --text-main: #ffffff;
+    --text-muted: #f8f8f8;
+    --border-color: #1F1D2F;
     --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --radius-md: 0.75rem;
+    --radius-lg: 1.5rem;
     --radius-full: 9999px;
     --transition: all 0.2s ease-in-out;
 }
@@ -29,10 +29,62 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--bg-color);
+    background-color: transparent;
     color: var(--text-main);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+}
+
+/* Fundo Animado com Bolhas */
+.background-animado {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: #F7F7F7;
+}
+
+.circulo-bg {
+    position: absolute;
+    border-radius: 50%;
+    background: #E3E3E3;
+    animation: floatAndScale 15s ease-in-out infinite alternate;
+}
+
+.circulo-1 { width: 400px; height: 400px; left: -100px; top: -100px; animation-duration: 25s; }
+.circulo-2 { width: 600px; height: 600px; right: -150px; bottom: -150px; animation-duration: 35s; animation-delay: -5s; }
+.circulo-3 { width: 250px; height: 250px; left: 30%; top: 40%; animation-duration: 20s; animation-delay: -10s; }
+
+.triangulo-bg {
+    position: absolute;
+    background: #E3E3E3;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    animation: floatAndScale 20s ease-in-out infinite alternate;
+}
+.triangulo-1 { width: 350px; height: 350px; right: 20%; top: -100px; animation-duration: 22s; }
+.triangulo-2 { width: 150px; height: 150px; left: 10%; bottom: 20%; animation-duration: 18s; animation-delay: -3s; }
+.triangulo-3 { width: 500px; height: 500px; left: -150px; top: 40%; animation-duration: 28s; animation-delay: -8s; opacity: 0.7; }
+
+/* Transição de Pagina */
+.transicao-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #F7F7F7;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.transicao-overlay.ativa {
+    opacity: 1;
+    pointer-events: all;
+}
+
+@keyframes floatAndScale {
+    0% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1.4) translate(80px, -50px); }
+    100% { transform: scale(0.9) translate(-40px, 80px); }
 }
 
 /* Tipografia */
@@ -67,8 +119,10 @@ a:hover {
 /* Header / Navbar */
 .barra-navegacao {
     /* navbar */
-    background-color: var(--card-bg);
-    border-bottom: 1px solid var(--border-color);
+    background: rgba(235, 32, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff;
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -83,7 +137,7 @@ a:hover {
     /* navbar-brand */
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #ffffff;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -97,7 +151,7 @@ a:hover {
 
 .item-navegacao {
     /* nav-item */
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
     padding: 0.5rem 0.75rem;
     border-radius: var(--radius-md);
@@ -106,8 +160,8 @@ a:hover {
 .item-navegacao:hover,
 .item-navegacao.ativo {
     /* active */
-    background-color: #eff6ff;
-    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
 }
 
 /* Main Content Area */
@@ -131,22 +185,25 @@ a:hover {
 .titulo-pagina {
     /* page-title */
     font-size: 1.875rem;
-    color: var(--text-main);
+    color: #000000;
 }
 
 /* Cards */
 .cartao {
     /* card */
-    background-color: var(--card-bg);
+    background: rgba(31, 29, 47, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     padding: 1.5rem;
-    transition: var(--transition);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cartao:hover {
-    box-shadow: var(--shadow-md);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
 }
 
 .titulo-cartao {
@@ -173,9 +230,21 @@ a:hover {
     margin-bottom: 2rem;
 }
 
+@keyframes btnGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 /* Botoes */
 .botao {
     /* btn */
+    background: linear-gradient(270deg, #B21901, #FF5B00, #B21901);
+    background-size: 200% 200%;
+    animation: btnGradient 3s ease infinite;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -184,7 +253,7 @@ a:hover {
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: var(--transition);
-    border: 1px solid transparent;
+    border: none;
     gap: 0.5rem;
     font-family: inherit;
     font-size: 0.875rem;
@@ -192,21 +261,46 @@ a:hover {
 
 .botao-principal {
     /* btn-primary */
-    background-color: var(--primary-color);
-    color: white;
+    background: linear-gradient(270deg, #B21901, #FF5B00, #B21901);
+    background-size: 200% 200%;
+    animation: btnGradient 3s ease infinite;
+    color: #ffffff;
+    border: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .botao-principal:hover {
-    background-color: var(--primary-hover);
-    color: white;
+    background: linear-gradient(270deg, #FF5B00, #B21901, #FF5B00);
+    background-size: 200% 200%;
+    color: #ffffff;
     box-shadow: var(--shadow-md);
     transform: translateY(-1px);
+}
+
+/* Ripple */
+span.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleAnim 600ms linear;
+    background-color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
 }
 
 /* Footer */
 .rodape {
     /* footer */
-    background-color: var(--card-bg);
+    background: rgba(235, 32, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid var(--border-color);
     padding: 1.5rem 2rem;
     text-align: center;
@@ -413,7 +507,7 @@ a:hover {
 
 /* Outros Componentes Específicos */
 .subtitulo-pagina {
-    color: var(--text-muted);
+    color: #000000;
     margin-top: 0.25rem;
 }
 
