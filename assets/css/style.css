@@ -1120,3 +1120,222 @@ span.ripple {
     justify-content: center;
     overflow: hidden;
 }
+
+/* ============================================================
+   MODAL DE SAÍDA ANTECIPADA
+   Overlay escuro com card centralizado e animação suave
+   ============================================================ */
+
+/* Fundo escuro que cobre toda a tela */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Quando o modal ta visível */
+.modal-overlay.modal-visivel {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Card do modal centralizado */
+.modal-conteudo {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+/* Quando visível, o card sobe e cresce */
+.modal-visivel .modal-conteudo {
+    transform: translateY(0) scale(1);
+}
+
+/* Cabeçalho do modal com ícone e título */
+.modal-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ícone redondo no cabeçalho do modal */
+.modal-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.modal-cabecalho h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Nome do aluno dentro do modal */
+.modal-nome-aluno {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+    margin-top: 0.15rem;
+}
+
+/* Corpo do modal com os campos */
+.modal-corpo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Grupo de campo do formulário do modal */
+.modal-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.modal-campo label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modal-campo input,
+.modal-campo textarea {
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    transition: border-color 0.2s ease;
+}
+
+.modal-campo input:focus,
+.modal-campo textarea:focus {
+    outline: none;
+    border-color: #f59e0b;
+}
+
+.modal-campo textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Rodapé do modal com os botões */
+.modal-rodape {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-rodape .botao {
+    flex: 1;
+    padding: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Botão laranja de confirmar saída */
+.botao-saida {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.botao-saida:hover {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
+}
+
+/* Botão de registrar saída no card do aluno */
+.botao-registrar-saida {
+    background-color: #f59e0b !important;
+    color: white !important;
+    border: none;
+}
+
+.botao-registrar-saida:hover {
+    background-color: #d97706 !important;
+}
+
+/* Feedback de sucesso no modal */
+.modal-sucesso {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.modal-sucesso i {
+    font-size: 3rem;
+    color: var(--success);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.modal-sucesso p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Feedback de erro no modal */
+.modal-erro {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    color: #fca5a5;
+    margin-bottom: 0.5rem;
+    display: none;
+}
+
+/* Botão verde de confirmar retorno */
+.botao-retorno {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.botao-retorno:hover {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+}
+
+/* Botão de registrar retorno no card do aluno */
+.botao-registrar-retorno {
+    background-color: #10b981 !important;
+    color: white !important;
+    border: none;
+}
+
+.botao-registrar-retorno:hover {
+    background-color: #059669 !important;
+}

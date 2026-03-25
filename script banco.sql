@@ -66,3 +66,39 @@ CREATE TABLE presencas(
     FOREIGN KEY(aluno_id) REFERENCES alunos(id),        -- Chave estrangeira ligando ao aluno
     FOREIGN KEY(diario_id) REFERENCES diarios_chamada(id) -- Chave estrangeira ligando ao diário
 );
+
+-- ============================================================
+-- TABELA: saidas
+-- Registra as saídas antecipadas dos alunos
+-- O professor informa horário e motivo, e o sistema marca
+-- falta nas aulas seguintes automaticamente
+-- ============================================================
+CREATE TABLE saidas(
+    id INT PRIMARY KEY AUTO_INCREMENT,                 -- ID único da saída
+    aluno_id INT,                                       -- ID do aluno que saiu
+    diario_id INT,                                      -- ID do diário de chamada do dia
+    aula_saida INT,                                     -- Número da aula em que o aluno saiu
+    horario_saida TIME,                                 -- Horário que o professor informou
+    registrado_em DATETIME DEFAULT NOW(),               -- Data e hora do registro
+    motivo VARCHAR(255),                                -- Motivo da saída antecipada
+    FOREIGN KEY (aluno_id) REFERENCES alunos(id),       -- Chave estrangeira ligando ao aluno
+    FOREIGN KEY (diario_id) REFERENCES diarios_chamada(id) -- Chave estrangeira ligando ao diário
+);
+
+-- ============================================================
+-- TABELA: retornos
+-- Registra os retornos dos alunos que saíram e voltaram
+-- O professor informa horário e motivo, e o sistema marca
+-- presença nas aulas a partir do retorno
+-- ============================================================
+CREATE TABLE retornos(
+    id INT PRIMARY KEY AUTO_INCREMENT,                 -- ID único do retorno
+    aluno_id INT,                                       -- ID do aluno que voltou
+    diario_id INT,                                      -- ID do diário de chamada do dia
+    aula_retorno INT,                                   -- Número da aula em que o aluno voltou
+    horario_retorno TIME,                               -- Horário que o professor informou
+    registrado_em DATETIME DEFAULT NOW(),               -- Data e hora do registro
+    motivo VARCHAR(255),                                -- Motivo do retorno
+    FOREIGN KEY (aluno_id) REFERENCES alunos(id),       -- Chave estrangeira ligando ao aluno
+    FOREIGN KEY (diario_id) REFERENCES diarios_chamada(id) -- Chave estrangeira ligando ao diário
+);

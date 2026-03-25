@@ -38,7 +38,7 @@ require_once 'includes/header.php';
         <div class="grade-duas-colunas">
             <div>
                 <label for="duracao" class="rotulo-formulario">Duração Aula (min)</label>
-                <input type="number" name="duracao" id="duracao" value="50" min="10" max="120" required class="controle-formulario">
+                <input type="number" name="duracao" id="duracao" value="45" min="10" max="120" required class="controle-formulario">
             </div>
             <div class="caixa-selecao-alinhada">
                 <label class="rotulo-clicavel">
@@ -56,6 +56,8 @@ require_once 'includes/header.php';
     </form>
 </div>
 
-<?php 
-require_once 'includes/footer.php'; 
+<?php
+
+require_once 'includes/footer.php';
+
 ?>

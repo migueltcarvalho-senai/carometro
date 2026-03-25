@@ -81,7 +81,7 @@ $listaTurmas = $stmtTurmas->fetchAll(PDO::FETCH_ASSOC);
         <div class="flex-coluna-espacada">
             <div id="instrucao-foto" class="texto-principal-cor destaque-negrito">Foto 1: Olhe fixo para a câmera</div>
             
-            <button type="button" id="btnCapturar" class="botao botao-destaque-escuro" disabled>
+            <button type="button" id="btnCapturar" class="botao botao-principal botao-largo" disabled>
                 <i class="ph ph-camera"></i> Capturar Foto <span id="num-foto">1</span>/3
             </button>
             
